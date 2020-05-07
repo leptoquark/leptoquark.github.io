@@ -20,6 +20,11 @@
     <link rel="stylesheet" href="css/L.Control.Basemaps.css" />
     <script src="js/L.Control.Basemaps-min.js"></script>
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+
 </head>
 
 <body>
@@ -43,6 +48,15 @@
         });
 
 	var map = L.map('catasto').setView([41.890218, 12.492421], 18);
+
+    var lc = L.control.locate({
+        flyto: true,
+        keepCurrentZoomLevel: true,
+        showPopup: false
+    }).addTo(map);
+
+    lc.start();
+
     var wmsCatasto = 'https://wms.cartografia.agenziaentrate.gov.it/inspire/wms/ows01.php';
     //var wmsCatasto = 'http://127.0.0.1:8080/geoserver/wms?service=WMS';
 
@@ -56,7 +70,7 @@
             crs: crs_6706,
             format: 'image/png',
             version: '1.3.0',
-            maxZoom: 18,
+            maxZoom: 20,
             transparent: true
         }),
 
@@ -65,7 +79,7 @@
             crs: crs_6706,
             format: 'image/png',
             version: '1.3.0',
-            maxZoom: 18,
+            maxZoom: 20,
             transparent: true
         }),
 
@@ -74,7 +88,7 @@
             crs: crs_6706,
             format: 'image/png',
             version: '1.3.0',
-            maxZoom: 18,
+            maxZoom: 20,
             transparent: true
         }),
 
@@ -83,7 +97,7 @@
             crs: crs_6706,
             format: 'image/png',
             version: '1.3.0',
-            maxZoom: 18,
+            maxZoom: 20,
             transparent: true
         }),
         
@@ -92,7 +106,7 @@
             crs: crs_6706,
             format: 'image/png',
             version: '1.3.0',
-            maxZoom: 18,
+            maxZoom: 20,
             transparent: true
         }),
         
@@ -101,7 +115,7 @@
             crs: crs_6706,
             format: 'image/png',
             version: '1.3.0',
-            maxZoom: 18,
+            maxZoom: 20,
             transparent: true
         }),
 
@@ -109,28 +123,36 @@
             layers: 'CP.CadastralZoning',
             crs: crs_6706,
             format: 'image/png',
-            maxZoom: 18,
+            maxZoom: 20,
             transparent: true
         })
     };
 
-    L.control.layers(null, basemaps, {collapsed: false}).addTo(map);
+    var overlay = L.control.layers(null, basemaps, {collapsed: false});    
+    overlay.addTo(map);
+
+    // Layer di default
+    basemaps.Fabbricati.addTo(map);
+    basemaps.Vestizioni.addTo(map);
+    
 
     var backlayer = [
         L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
-            maxZoom: 18,
+            maxZoom: 20,
+            minZoom: 10,
             subdomains:['mt0','mt1','mt2','mt3'],
             attribution: 'PNCS - AlmavivA S.p.A.'
         }),
         L.tileLayer('https://dev.{s}.tile.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png', {
-            maxZoom: 18,
+            maxZoom: 20,
             attribution: 'PNCS - AlmavivA S.p.A.',
             tileSize: 512,
             minZoom: 10,
             zoomOffset: -1,
         }),
         L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
-            maxZoom: 18,
+            maxZoom: 20,
+            minZoom: 10,
             subdomains:['mt0','mt1','mt2','mt3'],
             attribution: 'PNCS - AlmavivA S.p.A.'
         }),
@@ -138,9 +160,9 @@
 
     map.addControl(L.control.basemaps({
         basemaps: backlayer,
-        tileX: 0,  // tile X coordinate
-        tileY: 0,  // tile Y coordinate
-        tileZ: 1   // tile zoom level
+        tileX: 0,  
+        tileY: 0,  
+        tileZ: 1
     }));
 
 
