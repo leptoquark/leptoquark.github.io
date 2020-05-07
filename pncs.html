@@ -159,12 +159,12 @@ function getFeatureInfoUrl(map, layer, latlng, crs) {
         srs: 'EPSG:6706',
         styles: '',
         version: '1.3.0',
-       // format: layer.options.format,
+        format: layer.options.format,
         bbox: [sw.join(','), ne.join(',')].join(','),
         height: size.y,
         width: size.x,
-       // layers: layer.options.layers,
-      //  query_layers: layer.options.layers,
+        layers: layer.options.layers,
+        query_layers: layer.options.layers,
         info_format: 'text/html'
     };
     params = L.Util.extend(defaultParams);
