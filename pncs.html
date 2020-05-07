@@ -178,7 +178,7 @@ var popup = L.popup({maxWidth: 500});
  
     map.on('click', function(evt) {
     var coord =evt.latlng;
-    var gFIurl = getFeatureInfoUrl(map, basemaps.Particelle, coord, crs_6706);
+    var gFIurl = getFeatureInfoUrl(map, backlayer.Particelle, coord, crs_6706);
         if (gFIurl) {
             var xhttp;
             xhttp = new XMLHttpRequest();
