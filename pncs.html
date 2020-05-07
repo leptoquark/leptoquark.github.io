@@ -114,7 +114,7 @@
         })
     };
 
-    L.control.layers(null, basemaps).addTo(map);
+    L.control.layers(null, basemaps, {collapsed: false}).addTo(map);
 
     var backlayer = [
         L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
