@@ -158,7 +158,7 @@ function getFeatureInfoUrl(map, layer, latlng, crs) {
         service: 'WMS',
         srs: 'EPSG:6706',
         styles: '',
-        version: layer._wmsVersion,
+        version: '1.3.0',
         format: layer.options.format,
         bbox: [sw.join(','), ne.join(',')].join(','),
         height: size.y,
