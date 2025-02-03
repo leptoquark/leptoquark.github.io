@@ -23,7 +23,7 @@
 </head>
 <body class="bg-light">
     <div class="container">
-        <h1 class="mb-4">Validatore JSON v3</h1>
+        <h1 class="mb-4">Validatore JSON v2</h1>
         <div class="row">
             <div class="col-md-6">
                 <label for="jsonInput" class="form-label">JSON da validare:</label>
@@ -33,9 +33,9 @@
                 <label for="schemaSelector" class="form-label">Seleziona uno schema:</label>
                 <select id="schemaSelector" class="form-select mb-3" onchange="loadSchema()">
                     <option value="">Scegli uno schema...</option>
-                    <option value="schema1">Schema allegato 1</option>
-                    <option value="schema2">Schema allegato 2</option>
-                    <option value="schema3">Schema allegato 3</option>
+                    <option value="schema1">Schema 1</option>
+                    <option value="schema2">Schema 2</option>
+                    <option value="schema3">Schema 3</option>
                 </select>
 
                 <!-- Accordion per visualizzare lo Schema JSON -->
@@ -156,30 +156,38 @@
             lineWrapping: true
         });
 
-        var schemaEditor = CodeMirror.fromTextArea(document.getElementById("schemaInput"), {
-            mode: "application/json",
-            lineNumbers: true,
-            readOnly: true,
-            lineWrapping: true
-        });
-
+        // Funzione per caricare lo schema selezionato
         function loadSchema() {
             const selectedSchema = document.getElementById('schemaSelector').value;
-            schemaEditor.setValue(selectedSchema ? JSON.stringify(schemas[selectedSchema], null, 2) : '');
+            const schemaText = selectedSchema ? JSON.stringify(schemas[selectedSchema], null, 2) : '';
             
+            // Distruggiamo l'istanza precedente di CodeMirror
+            if (window.schemaEditor) {
+                window.schemaEditor.toTextArea();
+            }
+
+            // Creiamo una nuova istanza di CodeMirror per visualizzare lo schema
+            const schemaInputElement = document.getElementById('schemaInput');
+            schemaInputElement.value = schemaText;  // Impostiamo il valore nel textarea
+            window.schemaEditor = CodeMirror.fromTextArea(schemaInputElement, {
+                mode: "application/json",
+                lineNumbers: true,
+                readOnly: true,
+                lineWrapping: true
+            });
+
             const schemaAccordion = document.getElementById('schemaAccordion');
             if (selectedSchema) {
                 schemaAccordion.style.display = 'block';  // Mostra l'accordion se lo schema è selezionato
-                // Forza il refresh del CodeMirror per aggiornare il contenuto
-                schemaEditor.refresh();
             } else {
                 schemaAccordion.style.display = 'none';  // Nasconde l'accordion se nessuno schema è selezionato
             }
         }
 
+        // Funzione per validare il JSON
         function validateJSON() {
             const jsonText = jsonEditor.getValue();
-            const schemaText = schemaEditor.getValue();
+            const schemaText = window.schemaEditor.getValue();
             try {
                 const jsonData = JSON.parse(jsonText);
                 const jsonSchema = JSON.parse(schemaText);
@@ -198,9 +206,10 @@
             }
         }
 
+        // Funzione per resettare i campi
         function resetFields() {
             jsonEditor.setValue('');
-            schemaEditor.setValue('');
+            window.schemaEditor.setValue('');
             document.getElementById('schemaSelector').value = '';
             const schemaAccordion = document.getElementById('schemaAccordion');
             schemaAccordion.style.display = 'none';  // Nascondi l'accordion quando si resetta
