@@ -23,7 +23,7 @@
 </head>
 <body class="bg-light">
     <div class="container">
-        <h1 class="mb-4">Validatore JSON v2</h1>
+        <h1 class="mb-4">Validatore JSON v3</h1>
         <div class="row">
             <div class="col-md-6">
                 <label for="jsonInput" class="form-label">JSON da validare:</label>
@@ -166,6 +166,9 @@
         function loadSchema() {
             const selectedSchema = document.getElementById('schemaSelector').value;
             schemaEditor.setValue(selectedSchema ? JSON.stringify(schemas[selectedSchema], null, 2) : '');
+            
+            // Forza il refresh del CodeMirror per visualizzare correttamente il contenuto
+            schemaEditor.refresh();
             
             const schemaAccordion = document.getElementById('schemaAccordion');
             if (selectedSchema) {
