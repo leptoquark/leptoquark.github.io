@@ -33,9 +33,9 @@
                 <label for="schemaSelector" class="form-label">Seleziona uno schema:</label>
                 <select id="schemaSelector" class="form-select mb-3" onchange="loadSchema()">
                     <option value="">Scegli uno schema...</option>
-                    <option value="schema1">Schema 1</option>
-                    <option value="schema2">Schema 2</option>
-                    <option value="schema3">Schema 3</option>
+                    <option value="schema1">Schema allegato 1</option>
+                    <option value="schema2">Schema allegato 2</option>
+                    <option value="schema3">Schema allegato 3</option>
                 </select>
 
                 <!-- Accordion per visualizzare lo Schema JSON -->
@@ -167,12 +167,11 @@
             const selectedSchema = document.getElementById('schemaSelector').value;
             schemaEditor.setValue(selectedSchema ? JSON.stringify(schemas[selectedSchema], null, 2) : '');
             
-            // Forza il refresh del CodeMirror per visualizzare correttamente il contenuto
-            schemaEditor.refresh();
-            
             const schemaAccordion = document.getElementById('schemaAccordion');
             if (selectedSchema) {
                 schemaAccordion.style.display = 'block';  // Mostra l'accordion se lo schema è selezionato
+                // Forza il refresh del CodeMirror per aggiornare il contenuto
+                schemaEditor.refresh();
             } else {
                 schemaAccordion.style.display = 'none';  // Nasconde l'accordion se nessuno schema è selezionato
             }
