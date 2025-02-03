@@ -38,8 +38,8 @@
                     <option value="schema3">Schema 3</option>
                 </select>
 
-                <!-- Accordion per visualizzare il JSON Schema -->
-                <div class="accordion" id="schemaAccordion">
+                <!-- Accordion per visualizzare lo Schema JSON -->
+                <div class="accordion" id="schemaAccordion" style="display: none;">
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingSchema">
                             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSchema" aria-expanded="false" aria-controls="collapseSchema">
@@ -166,11 +166,12 @@
         function loadSchema() {
             const selectedSchema = document.getElementById('schemaSelector').value;
             schemaEditor.setValue(selectedSchema ? JSON.stringify(schemas[selectedSchema], null, 2) : '');
-            const accordionCollapse = document.getElementById('collapseSchema');
+            
+            const schemaAccordion = document.getElementById('schemaAccordion');
             if (selectedSchema) {
-                accordionCollapse.classList.add('show'); // Mostra l'accordion se lo schema è selezionato
+                schemaAccordion.style.display = 'block';  // Mostra l'accordion se lo schema è selezionato
             } else {
-                accordionCollapse.classList.remove('show'); // Nasconde l'accordion se nessuno schema è selezionato
+                schemaAccordion.style.display = 'none';  // Nasconde l'accordion se nessuno schema è selezionato
             }
         }
 
@@ -199,8 +200,8 @@
             jsonEditor.setValue('');
             schemaEditor.setValue('');
             document.getElementById('schemaSelector').value = '';
-            const accordionCollapse = document.getElementById('collapseSchema');
-            accordionCollapse.classList.remove('show'); // Nascondi l'accordion quando si resetta
+            const schemaAccordion = document.getElementById('schemaAccordion');
+            schemaAccordion.style.display = 'none';  // Nascondi l'accordion quando si resetta
             document.getElementById('result').className = 'alert alert-light border';
             document.getElementById('result').textContent = '';
         }
